@@ -9,8 +9,7 @@ const reactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      maxlength: 50,
-      minlength: 4,
+      max_length: 280,
     },
     createdAt: {
       type: Date,

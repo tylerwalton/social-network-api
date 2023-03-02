@@ -13,6 +13,9 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now(),
+      get: (Date) => {
+        if (Date) return Date.toISOSString().split('T')[0];
+      },
     },
     reactions: [reactionSchema],
   },
@@ -23,6 +26,10 @@ const thoughtSchema = new Schema(
     id: false,
   }
 );
+
+userSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
 const Thought = model("thought", thoughtSchema);
 
