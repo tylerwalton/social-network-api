@@ -2,10 +2,10 @@ const { User, Thought } = require("../models");
 
 // finish repurpusing user routes
 
-const userController = {
+const thoughtsController = {
   // get all users
   getThoughts(req, res) {
-    User.find({})
+    Thought.find({})
       .then((dbUserData) => {
         res.json(dbUserData);
       })
@@ -16,9 +16,7 @@ const userController = {
   },
 
   getSingleThought(req, res) {
-    User.findOne({ _id: req.params.userId })
-      .populate("friends")
-      .populate("thoughts")
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: "No user has that id" });
@@ -32,7 +30,7 @@ const userController = {
   },
 
   createThought(req, res) {
-    User.create(req.body)
+    Thought.create(req.body)
       .then((dbUserData) => {
         res.json(dbUserData);
       })
@@ -43,8 +41,8 @@ const userController = {
   },
 
   updateThought(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
       {
         $set: req.body,
       },
@@ -66,7 +64,7 @@ const userController = {
   },
 
   deleteThought(req, res) {
-    User.findOneAndDelete({ _id: req.params.userId })
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((dbUserData) => {
         if (!dbUserData) {
           return res.status(404).json({ message: "No user with this id!" });
@@ -79,10 +77,10 @@ const userController = {
       });
   },
 
-  addThought(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $push: { friends: req.params.friendId } },
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } },
       { new: true }
     )
       .then((dbUserData) => {
@@ -97,15 +95,15 @@ const userController = {
       });
   },
 
-  removeThought(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } },
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions:{ reactionId: req.params.reactionId} } },
       { new: true }
     )
       .then((dbUserData) => {
         if (!dbUserData) {
-          return res.status(404).json({ message: "No user has this id!" });
+          return res.status(404).json({ message: "No Thought with this Id!" });
         }
         res.json(dbUserData);
       })
@@ -116,4 +114,4 @@ const userController = {
   },
 };
 
-module.exports = userController;
+module.exports = thoughtsController;

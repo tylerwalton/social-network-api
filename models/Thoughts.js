@@ -14,7 +14,7 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now(),
       get: (Date) => {
-        if (Date) return Date.toISOSString().split('T')[0];
+        if (Date) return Date.toISOString().split('T')[0];
       },
     },
     reactions: [reactionSchema],
@@ -22,12 +22,13 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters : true,
     },
     id: false,
   }
 );
 
-userSchema.virtual("reactionCount").get(function () {
+thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
