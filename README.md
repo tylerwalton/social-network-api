@@ -11,7 +11,7 @@ Here is a list of my motivations for this project!
 
 ## <u>**Screenshots**</u>
 
-![alt text](./img/Screenshot%20(23.png)
+![alt text](./img/Screenshot%20(23).png)
 
 ## <u>**Recording**</u>
 
